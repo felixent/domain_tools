@@ -1,0 +1,98 @@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Permissions
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+How to set up file permissions for Laravel?
+
+Laravel – bootstrap/cache/services.php missing
+Laravel – bootstrap/cache directory must be present and writable
+Laravel – bootstrap/frameworks/sessions.php, views.php, services.php missing
+
+If we are getting any file permission error; as follows:
+
+sudo chgrp -R www-data /var/www/html/laravel
+sudo chmod -R g+rw /var/www/html/laravel
+
+sudo chown -R www-data:www-data /var/www/laravel/storage
+sudo chown -R www-data:www-data /var/www/laravel/bootstrap/cache
+sudo chown -R www-data:www-data /var/www/laravel/vendor
+
+sudo chown -R $USER:www-data storage 
+sudo chown -R $USER:www-data bootstrap/cache
+
+getfacl storage/framework/*
+sudo chgrp www-data storage -R
+sudo chmod g+rwx storage -R
+sudo setfacl -R -d -m g::rwx storage
+
+chmod -R gu+w storage
+chmod -R guo+w storage
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Server Error 500 when accessing Laravel (Solve)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Failed to clear cache. make sure you have the appropriate permissions
+
+Adjust the permissions of storage and bootstrap/cache.
+
+cd into your Laravel project.
+sudo chmod -R 755 storage
+sudo chmod -R 755 bootstrap/cache
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+laravel.log could not be opened?
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+laravel.log could not be opened Permission denied?
+
+Laravel failed to open stream permission denied storage, logs. In this tutorial, you will learn, how to solve storage/logs/laravel.log” could not be opened: failed to open stream: permission denied.
+
+While you working with laravel framework and you face some error releated to laravel failed to open stream permission denied storage, laravel failed to open stream permission denied log, laravel session failed to open stream permission denied.
+
+View directories in laravel_root/storage/
+
+(Storage Directory list)
+storage/app
+storage/logs
+storage/framework
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+storage/framework/testing
+
+1. cd {laravel_root}/storage
+2. mkdir -pv framework/views app framework/sessions framework/cache
+3. cd ..
+4. chmod 777 -R storage
+5. chown -R www-data:www-data storage
+
+Then, You need to adjust the permissions of storage and bootstrap/cache.
+
+1. cd into your Laravel project.
+2. sudo chmod -R 755 storage
+3. sudo chmod -R 755 bootstrap/cache
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+bootstrap/cache/cache.php, sessions.php, views.php, services.php missing
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Create these directories if they don’t exist in laravel:
+
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+
+Then
+
+delete bootstrap/cache files
+
+Test if it works, if not, try giving the correct permissions to the storage folder: chmod -R 775 storage/
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Error 502
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+open the nginx file, check on this line fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+
+Is the file php7.4-fpm.sock is in the directory /var/run/php? if there is php-fpm.sock file in that directory, reupdate the nginx file with correct filename.
+
+Change from this fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+
+to this fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+
